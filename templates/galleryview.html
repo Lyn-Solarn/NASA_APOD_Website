@@ -1,17 +1,35 @@
-<header>
-  <h1>
-NASA Photo Gallery
-  </h1>
-  <form method="GET" action="/search/">
-    {{ form.search_input.label }}
-    {{ form.search_input(size=32) }}
-    <input type="submit" value="Submit">
-  </form>
-</header>
+<!DOCTYPE html>
+<html>
+  <head>
+      <title>NASA APOD Gallery</title>
+      <link rel="stylesheet" href="../static/styles/index.css">
+  </head>
+  <body>
+    <div class="header">
+      <h1>NASA Photo Gallery</h1>
+    </div>
 
-{% for item in random_gallery %}
-  <img src=item> #please make this show the images i dunno how the API works
-  <form method="POST" action="/">
-    <input type="submit" value="Submit"> #also i dont know how to associate the button with the image
-  </form>
-{% endfor %}
+    <div class="search-container">
+      <form method="GET" action="/search/">
+        {{ form.search_input.label }}
+        {{ form.search_input(size=32) }}
+        <input type="submit" value="Submit">
+      </form>
+    </div>
+
+    <div class="gallery">
+      {% for image in images %}
+      <div class="apod">
+          <h3>{{ image.title }} ({{ image.date }})</h3>
+          <button>Favorite</button>
+          <br>
+          {% if image.media_type == 'image' %}
+              <img src="{{ image.url }}" alt="{{ image.title }}">
+          {% else %}
+              <p>[{{ image.media_type|capitalize }}] <a href="{{ image.url }}">Click to view</a></p>
+          {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </body>
+</html>
