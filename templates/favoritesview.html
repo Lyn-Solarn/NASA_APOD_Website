@@ -1,0 +1,14 @@
+<header>
+  <h1>
+NASA Photo Gallery
+  </h1>
+  <form method="GET" action="/search/">
+    {{ form.search_input.label }}
+    {{ form.search_input(size=32) }}
+    <input type="submit" value="Submit">
+  </form>
+</header>
+
+{% for item in favorites_album %}
+  <img src=item> #please make this show the images i dunno how the API works
+{% endfor %}
