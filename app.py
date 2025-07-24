@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, flash, redirect
+from flask import Flask, render_template, redirect
 from flask_bootstrap import Bootstrap5
 from flask_wtf import FlaskForm
 from wtforms import DateField
@@ -57,7 +57,10 @@ class ImageSave(FlaskForm):
 favorites_album = []
 
 def favorite_picture(my_image):
-    favorites_album.append('')
+    favorites_album.append(my_image)
+    
+def remove_favorite_picture(my_image):
+     my_image.remove(my_image)
 
 
 @app.route('/', methods=['POST', 'GET'])
@@ -77,12 +80,6 @@ def favorites():
 		return redirect('search'+form.search_input.data)
 	return render_template('favoritesview.html', form=form, favorites_album=favorites_album)
 
-@app.route('/search/<search_input>')
-def search(search_input):
-	form = SearchAction()
-	if form.validate_on_submit():
-		return redirect('search'+form.search_input.data)
-	return render_template('searchview.html', form=form, search_results=search_results)
 
 if __name__ == "__main__":
     app.run(debug=True)
