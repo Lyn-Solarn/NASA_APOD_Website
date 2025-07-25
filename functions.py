@@ -1,47 +1,72 @@
 from flask import Flask, render_template, flash, redirect
 from flask_bootstrap import Bootstrap5
 from flask_wtf import FlaskForm
-from wtforms import DateField, SubmitField
+from wtforms import DateField, SubmitField, HiddenField, RadioField
 from wtforms.validators import DataRequired
 from datetime import datetime
-import json
+import requests, json
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'SPACESPACESPACESPACESPACE'
 bootstrap = Bootstrap5(app)
+my_key = 'DX3uWsjt0CtEQDSScmJutQhzQcdivrQU4dddT0C3'
+
 
 class SearchAction(FlaskForm):
 	search_input = DateField('Search',validators=[DataRequired()])
 
 class ImageSave(FlaskForm):
-	1+1 #filler method because i dont know what to do here...
+	image_title = HiddenField()
+	date_of_image = HiddenField()
+	decision = RadioField('',
+				choices=[('yes', 'Yes'), ('no', 'No')],
+				validators=[DataRequired()]
+	)
 
 favorites_album = []
 
-def favorite_picture(my_image):
-	favorites_album.append('')
 
-@app.route('/', methods=['POST', 'GET'])
 
-@app.route('/')
+@app.route('/', methods=('POST', 'GET'))
 def gallery():
-	random_gallery = []
-
 	form = SearchAction()
+	error= None
 	if form.validate_on_submit():
-		return redirect('search'+form.search_input.data)
-	return render_template('galleryview.html', form=form, random_gallery=random_gallery)
+		endpoint = 'https://api.nasa.gov/planetary/apod'
+		payload = {
+                'api_key': my_key,
+                'date': form.search_input.data
+            }
+		r = requests.get(endpoint, params=payload)
+		data = r.json()
+		if data['media_type'] == 'image':
+			return render_template('searchview.html', data=data, form=ImageSave())
+		elif data['media_type'] == 'video':
+			error = 'Did not retrieve an image try another date'
+	return render_template('galleryview.html', form=form, error=error)
 
-@app.route('/favorites')
+@app.route('/favorites', methods=('POST', 'GET'))
 def favorites():
-	form = SearchAction()
+	form = ImageSave()
 	if form.validate_on_submit():
-		return redirect('search'+form.search_input.data)
-	return render_template('favoritesview.html', form=form, favorites_album=favorites_album)
+		if form.decision.data == 'yes':
+			image_date = form.date_of_image.data
+			image_title = form.image_title.data
+			if image_date not in [item[0] for item in favorites_album]:
+				favorites_album.append([image_date,image_title])
+		return redirect('/gallery')
+	return redirect('/')
 
-@app.route('/search/<search_input>')
-def search(search_input):
-	form = SearchAction()
-	if form.validate_on_submit():
-		return redirect('search'+form.search_input.data)
-	return render_template('searchview.html', form=form, search_results=search_results)
+@app.route('/gallery')
+def your_favorites():
+	images = []
+	for date, title in favorites_album:
+		endpoint = 'https://api.nasa.gov/planetary/apod'
+		payload = {
+                'api_key': my_key,
+                'date': date
+            }
+		r = requests.get(endpoint, params=payload)
+		data = r.json()
+		images.append(data)
+	return render_template('favoritesview.html', images=images)

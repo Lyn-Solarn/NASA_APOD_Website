@@ -1,17 +1,32 @@
-<header>
-  <h1>
-NASA Photo Gallery
-  </h1>
-  <form method="GET" action="/search/">
-    {{ form.search_input.label }}
-    {{ form.search_input(size=32) }}
-    <input type="submit" value="Submit">
-  </form>
-</header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  {{ bootstrap.load_css() }}
+</head>
+<body>
+  <header>
+    <div>
+      <a href="/gallery">Your Gallery</a><br><br>
+    </div>
+    <h1 class="mt-5"> Create a Poster Board of Your Favorite Space Images! </h1><br>
 
-{% for item in random_gallery %}
-  <img src=item> #please make this show the images i dunno how the API works
-  <form method="POST" action="/">
-    <input type="submit" value="Submit"> #also i dont know how to associate the button with the image
-  </form>
-{% endfor %}
+    {% if error %}
+      <div class="alert alert-danger">{{error}}</div>
+    {%endif%}
+  
+  
+    <h2>Enter Any Date to See NASA's Picture of the Day: </h2>
+    <form method="POST" action="/">
+      {{ form.csrf_token}}
+      {{ form.search_input.label }}
+      {{ form.search_input(size=32) }}
+      <input type="submit" value="Submit">
+    </form>
+  </header>
+
+</body>
+</html>
+<header>
