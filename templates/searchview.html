@@ -1,17 +1,34 @@
-<header>
-  <h1>
-NASA Photo Gallery
-  </h1>
-  <form method="GET" action="/search/">
-    {{ form.search_input.label }}
-    {{ form.search_input(size=32) }}
-    <input type="submit" value="Submit">
-  </form>
-</header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="../static/styles/index.css"> 
+</head>
+<body>
+  <div class="header">
+    <h1> NASA's Image of {{data.date}} </h1>
+    <a href="/">← Back to Gallery</a><br><br>
+  </div>
 
-{% for item in search_results %}
-  <img src=item> #please make this show the images i dunno how the API works
-  <form method="POST" action="/">
-    <input type="submit" value="Submit"> #also i dont know how to associate the button with the image
-  </form>
-{% endfor %}
+
+  <div class="apod">
+    <h3>{{data.title}}</h3>
+    <p>Details: {{data.explanation}}</p>
+    <img src="{{data.url}}" alt="{{data.title}}">
+
+    <div>
+      <h2><b>Would you like to add this image to your gallery?</b></h2>
+        <form method="POST" action="/favorites">
+          {{form.csrf_token}}
+          {{form.image_title(value=data.title)}}
+          {{form.date_of_image(value=data.date)}}
+          {{form.decision.label}}
+          {{form.decision}}
+          <input type="submit" value="Submit">
+        </form>
+    </div>
+  </div>
+  
+</body>

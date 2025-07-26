@@ -1,4 +1,4 @@
-# Project Name
+# NASA APOD Gallery
 
 ## Team Members
 - Lyn Larson
