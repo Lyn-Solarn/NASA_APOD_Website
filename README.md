@@ -7,7 +7,8 @@ Date: 07/25/2025
 
 How to run program: Open up a virtual environment in your terminal,
 make sure you are in the project's directory, and run the command:
-flask --app functions.py run --debug
+flask --app functions.py run --debug.
+Then, in your browser, enter http://127.0.0.1:5000/ to run the program locally
 
 Github Link: https://github.com/Lyn-Solarn/NASA_APOD_Website
 Trello board link: N/A
