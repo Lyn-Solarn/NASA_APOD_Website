@@ -1,16 +1,31 @@
+:root {
+    background-image: url('https://www.hdwallpapers.in/download/glare_stars_space_black_sky_background_hd_space-HD.jpg');
+}
+
 body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    color: white;
 }
 
 .header {
     justify-self: center;
     text-align: center;
+    margin-bottom: 5px;
+}
+
+h1 {
+    margin-bottom: 0px;
+}
+
+a {
+    color: white; 
 }
 
 .search-container {
     text-align: center;
+    margin-bottom: 5px;
 }
 
 .gallery {
@@ -21,10 +36,21 @@ body {
 }
 
 .apod {
+    padding: 0px 3px 3px 3px;
+    margin-bottom: 3px;
     text-align: center;
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: rgb(255, 255, 255, 0.15);
 }
 
 img {
     max-width: 300px;
     max-height: 300px;
+    border: solid black;
+}
+
+input[type="submit"] {
+    color: white;
+    background-color: black;
 }

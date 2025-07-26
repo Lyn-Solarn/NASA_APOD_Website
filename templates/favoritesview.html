@@ -1,10 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>NASA APOD Gallery</title>
-    <link rel="stylesheet" href="styles/index.css">
+    <meta charset="UTF-8">
+    <title>Favorites Gallery</title>
+    <link rel="stylesheet" href="../static/styles/index.css"> 
 </head>
-<body>
-    <h1>NASA Photo Gallery - Favorites</h1>
+<body class="container">
+
+    <div class="header">
+        <h1>NASA Photo Gallery - Favorites</h1>
+        <a href="/">← Back to Gallery</a><br><br>    
+    </div>
+
+    {% if images %}
+        {% for image in images %}
+            <div class="apod">
+                <h3>{{ image.title }}</h3>
+                <p><strong>Date:</strong> {{ image.date }}</p>
+                <p>{{ image.explanation }}</p>
+                <img src="{{ image.url }}" alt="{{ image.title }}">
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No favorites yet. Go search and add some!</p>
+    {% endif %}
+
 </body>
 </html>

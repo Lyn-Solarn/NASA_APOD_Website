@@ -1,35 +1,48 @@
 <!DOCTYPE html>
-<html>
-  <head>
-      <title>NASA APOD Gallery</title>
-      <link rel="stylesheet" href="../static/styles/index.css">
-  </head>
-  <body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NASA APOD Gallery</title>
+    <link rel="stylesheet" href="../static/styles/index.css"> 
+</head>
+<body class="container">
+
     <div class="header">
-      <h1>NASA Photo Gallery</h1>
+        <h1>NASA Photo Gallery</h1>
+        <a href="/favorites">View Favorites</a>
     </div>
 
     <div class="search-container">
-      <form method="GET" action="/search/">
-        {{ form.search_input.label }}
-        {{ form.search_input(size=32) }}
-        <input type="submit" value="Submit">
-      </form>
+        <form method="POST" action="/">
+            {{ form.csrf_token }}
+            {{ form.search_input.label }}
+            {{ form.search_input(size=32, class="form-control d-inline w-auto") }}
+            <input type="submit" value="Search" class="btn btn-primary">
+        </form>
     </div>
 
     <div class="gallery">
-      {% for image in images %}
-      <div class="apod">
-          <h3>{{ image.title }} ({{ image.date }})</h3>
-          <button>Favorite</button>
-          <br>
-          {% if image.media_type == 'image' %}
-              <img src="{{ image.url }}" alt="{{ image.title }}">
-          {% else %}
-              <p>[{{ image.media_type|capitalize }}] <a href="{{ image.url }}">Click to view</a></p>
-          {% endif %}
-      </div>
-      {% endfor %}
+    {% for image in images %}
+    <div class="apod">
+        <h3>{{ image.title }} ({{ image.date }})</h3>
+
+        {% if image.media_type == 'image' %}
+            <img src="{{ image.url }}" alt="{{ image.title }}">
+        {% else %}
+            <p>[{{ image.media_type|capitalize }}] <a href="{{ image.url }}">Click to view</a></p>
+        {% endif %}
+
+        <!-- Favorite Form -->
+        <form method="POST" action="/favorites">
+            {{ form.csrf_token }}
+            <input type="hidden" name="image_title" value="{{ image.title }}">
+            <input type="hidden" name="date_of_image" value="{{ image.date }}">
+            <input type="hidden" name="decision" value="yes">
+            <input type="submit" value="Favorite">
+        </form>
     </div>
-  </body>
+    {% endfor %}
+</div>
+
+</body>
 </html>
