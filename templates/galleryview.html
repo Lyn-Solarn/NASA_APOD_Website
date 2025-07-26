@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<<<<<<< HEAD
     <meta charset="UTF-8">
     <title>NASA APOD Gallery</title>
     <link rel="stylesheet" href="../static/styles/index.css"> 
@@ -46,3 +47,34 @@
 
 </body>
 </html>
+=======
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  {{ bootstrap.load_css() }}
+</head>
+<body>
+  <header>
+    <div>
+      <a href="/gallery">Your Gallery</a><br><br>
+    </div>
+    <h1 class="mt-5"> Create a Poster Board of Your Favorite Space Images! </h1><br>
+
+    {% if error %}
+      <div class="alert alert-danger">{{error}}</div>
+    {%endif%}
+  
+  
+    <h2>Enter Any Date to See NASA's Picture of the Day: </h2>
+    <form method="POST" action="/">
+      {{ form.csrf_token}}
+      {{ form.search_input.label }}
+      {{ form.search_input(size=32) }}
+      <input type="submit" value="Submit">
+    </form>
+  </header>
+
+</body>
+</html>
+<header>
+>>>>>>> d06941cfbfdc237087566dd84f01882203765d1c
